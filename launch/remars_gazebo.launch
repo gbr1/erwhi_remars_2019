@@ -29,6 +29,7 @@ THE SOFTWARE.
   <arg name="gui" default="true"/>
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
+  <env name="GAZEBO_MODEL_PATH" value="$(find erwhi_remars_2019)/models/3d" />
 
   <!-- call empty with a world -->
   <include file="$(find erwhi_gazebo)/launch/my_empty.launch">

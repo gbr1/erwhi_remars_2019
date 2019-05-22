@@ -67,7 +67,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>/home/user/catkin_ws/src/erwhi_remars_2019/models/3d/remars02.dae</uri>
+              <uri>model://remars02.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
