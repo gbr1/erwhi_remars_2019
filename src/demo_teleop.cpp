@@ -56,9 +56,10 @@ void joyCallback(const sensor_msgs::Joy::ConstPtr& msg){
     }
 
     //R
-    if (msg->button[5]){
+    if (msg->buttons[5]){
         ROS_INFO("[JOY COMMAND: kill exploration");
         system("rosnode kill /explore");
+        system("rosnode kill /explore_blinker");
     }
 
     //ZR

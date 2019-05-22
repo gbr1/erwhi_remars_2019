@@ -64,4 +64,7 @@ THE SOFTWARE.
 
 <exec_depend>roscpp</exec_depend>
 
+<build_depend>upboard_ros</build_depend>
+<build_export_depend>upboard_ros</build_export_depend>
+<exec_depend>upboard_ros</exec_depend>
 </package>

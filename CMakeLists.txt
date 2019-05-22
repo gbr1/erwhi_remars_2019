@@ -30,7 +30,7 @@ add_compile_options(-std=c++11)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp)
+find_package(catkin REQUIRED COMPONENTS roscpp upboard_ros)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -59,6 +59,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp)
 ##   * add "message_generation" and every package in MSG_DEP_SET to
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  upboard_ros
 )
 ##   * add "message_runtime" and every package in MSG_DEP_SET to
 ##     catkin_package(CATKIN_DEPENDS ...)
@@ -126,7 +127,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES erwhi_remars_2019
-#  CATKIN_DEPENDS other_catkin_pkg
+#   CATKIN_DEPENDS upboard_ros
 #  DEPENDS system_lib
 )
 
@@ -234,5 +235,13 @@ add_executable(demo_teleop
 )
 add_dependencies(demo_teleop ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(demo_teleop
+  ${catkin_LIBRARIES}
+)
+
+add_executable(explore_blinker
+  src/explore_blinker.cpp
+)
+add_dependencies(explore_blinker upboard_ros ${erwhi_remars_2019_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(explore_blinker
   ${catkin_LIBRARIES}
 )
