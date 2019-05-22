@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="joy" type="joy_node" name="joy_conn" />
+    <node pkg="erwhi_remars_2019" type="demo_teleop" name="teleop" />
+</launch>
