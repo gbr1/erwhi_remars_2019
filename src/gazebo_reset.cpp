@@ -25,25 +25,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <thread>
-/*
-#include <move_base_msgs/MoveBaseAction.h>
-#include <actionlib/client/simple_action_client.h>
-*/
-/*
-void explore(){
-    //system("roslaunch erwhi_remars_2019 restart.launch");
-    system("roslaunch erwhi_navigation explore.launch");
-}
-*/
 
-//typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 int main(int argc, char** argv){
     ros::init(argc, argv, "gazebo_reset");
     
     ros::NodeHandle nh;
-
-    //MoveBaseClient ac("move_base",true);
 
     ros::Time current_time, last_time;
     current_time = ros::Time::now();
@@ -56,18 +43,12 @@ int main(int argc, char** argv){
         if (dt>=120){
             ROS_INFO("RESET is happening");
             system("rosnode kill /explore");
-            //ac.cancelGoal();
             system("rosservice call /rtabmap/reset");
             system("rosservice call /gazebo/reset_world");
             system("rosservice call /rtabmap/reset");
             ros::Duration(2).sleep();
             system("rosservice call /rtabmap/reset");
-            /*
-            std::thread t(explore);
-            t.join();
-            */
             last_time = ros::Time::now();
-        }
-        
+        }      
     }
 }

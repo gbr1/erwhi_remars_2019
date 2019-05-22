@@ -53,7 +53,7 @@ void callbackDetection(const ros_openvino::Objects & msg){
 }
 
 int main(int argc, char **argv){
-    ros::init(argc, argv, "explore_blinker");
+    ros::init(argc, argv, "led_detection");
     ros::NodeHandle nh;
     ros::Publisher leds_pub = nh.advertise<upboard_ros::Leds>("/upboard/leds", 10);
     ros::Subscriber sub = nh.subscribe("/object_detection/results",10,callbackDetection);

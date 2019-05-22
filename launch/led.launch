@@ -24,6 +24,6 @@ THE SOFTWARE.
 -->
 <launch>
     <node pkg="upboard_ros" type="led_node" name="led_node" />
-    <node pkg="erwhi_remars_2019" type="explore_blinker" name="explore_blinker" respawn="true" respawn_delay="5" />
+    <node pkg="erwhi_remars_2019" type="explore_blinker" name="explore_blinker" respawn="true" respawn_delay="300" />
     <node pkg="erwhi_remars_2019" type="led_detection" name="led_detection" />
 </launch>

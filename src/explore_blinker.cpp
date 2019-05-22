@@ -25,6 +25,9 @@
 #include <upboard_ros/Leds.h>
 #include <upboard_ros/Led.h>
 
+bool status = true;
+float t = 0.1;
+
 int main(int argc, char **argv){
     ros::init(argc, argv, "explore_blinker");
     ros::NodeHandle nh;
@@ -33,25 +36,32 @@ int main(int argc, char **argv){
     upboard_ros::Leds msg;
     upboard_ros::Led ledmsg;
 
+    ros::Time current_time, last_time;
+    current_time = ros::Time::now();
+    last_time = ros::Time::now();
+
     while(ros::ok()){
-        msg.header.stamp=ros::Time::now();
-        msg.header.frame_id="base_link";
-        ledmsg.led=ledmsg.YELLOW;
-        ledmsg.value=true;
-        msg.leds.push_back(ledmsg);
-        leds_pub.publish(msg);
+
+        current_time = ros::Time::now();
+        double dt = (current_time - last_time).toSec();
+        if (dt>=t){
+            msg.header.stamp=ros::Time::now();
+            msg.header.frame_id="base_link";
+            ledmsg.led=ledmsg.YELLOW;
+            ledmsg.value=status;
+            msg.leds.push_back(ledmsg);
+            ledmsg.led=ledmsg.RED;
+            ledmsg.value=false;
+            msg.leds.push_back(ledmsg);
+            leds_pub.publish(msg);
+            msg.leds.clear();
+            
+            t=0.1+0.8*status;
+            status=!status;
+
+            last_time = ros::Time::now();
+        }
         ros::spinOnce();
-        ros::Duration(0.1).sleep();
-        msg.leds.clear();
-        msg.header.stamp=ros::Time::now();
-        msg.header.frame_id="base_link";
-        ledmsg.led=ledmsg.YELLOW;
-        ledmsg.value=false;
-        msg.leds.push_back(ledmsg);
-        leds_pub.publish(msg);
-        ros::spinOnce();
-        ros::Duration(1.0).sleep();
-        msg.leds.clear();
     }
 
     return 0;

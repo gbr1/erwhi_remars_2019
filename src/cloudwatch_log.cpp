@@ -104,11 +104,6 @@ int main(int argc, char** argv)
             last_time = ros::Time::now();
 
         }
-
-        /*
-        sysinfo(&sys_info);
-        std::cout<<((float)((uint64_t)sys_info.totalram-(uint64_t)sys_info.freeram))/1024/1024/1024.0<<std::endl;
-        */
         ros::spinOnce();
     }
 }

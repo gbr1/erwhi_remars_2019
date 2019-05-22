@@ -26,6 +26,8 @@
 #include <geometry_msgs/Twist.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <upboard_ros/Leds.h>
+#include <upboard_ros/Led.h>
 
 
 geometry_msgs::Twist twist;
@@ -33,6 +35,11 @@ geometry_msgs::Twist twist;
 bool publish=false;
 bool buttonpressed = false;
 bool stop=false;
+
+upboard_ros::Leds ledsmsg;
+upboard_ros::Led ledmsg;
+
+bool led_publish=false;
 
 
 void joyCallback(const sensor_msgs::Joy::ConstPtr& msg){
@@ -55,22 +62,37 @@ void joyCallback(const sensor_msgs::Joy::ConstPtr& msg){
         system("rosservice call /rtabmap/reset_odom");
     }
 
+    //L
+    if (msg->buttons[4]){
+    }
+
+
     //R
-    if (msg->buttons[5]){
+    if (!msg->buttons[4] && msg->buttons[5] && !msg->buttons[6] && !msg->buttons[7]){
         ROS_INFO("[JOY COMMAND: kill exploration");
         system("rosnode kill /explore");
         system("rosnode kill /explore_blinker");
+        upboard_ros::Led red;
+        ledsmsg.header.stamp=ros::Time::now();
+        ledsmsg.header.frame_id="base_link";
+        ledmsg.led=ledmsg.RED;
+        ledmsg.value=true;
+        ledsmsg.leds.push_back(ledmsg);
+        ledmsg.led=ledmsg.YELLOW;
+        ledmsg.value=false;
+        ledsmsg.leds.push_back(ledmsg);
+        led_publish=true;
     }
 
     //ZR
-    if (msg->buttons[7]){
+    if (!msg->buttons[4] && !msg->buttons[5] && !msg->buttons[6] && msg->buttons[7]){
         //turn off screen
         ROS_INFO("[JOY COMMAND: screen OFF]");
         system("xrandr --output HDMI-1 --off");
     }
 
     //ZL
-    if (msg->buttons[6]){
+    if (!msg->buttons[4] && !msg->buttons[5] && msg->buttons[6] && !msg->buttons[7]){
         //turn on screen
         ROS_INFO("[JOY COMMAND: screen ON]");
         system("xrandr --output HDMI-1 --auto");
@@ -119,6 +141,8 @@ int main(int argc, char** argv)
 
     ros::Subscriber sub=nh.subscribe<sensor_msgs::Joy>("/joy", 10, joyCallback);
     ros::Publisher pub=nh.advertise<geometry_msgs::Twist>("joy_teleop/cmd_vel",1);
+    ros::Publisher led = nh.advertise<upboard_ros::Leds>("/upboard/leds", 10);
+
 
     ros::Rate loop_rate(50);
 
@@ -132,6 +156,10 @@ int main(int argc, char** argv)
                 publish=false;
                 stop=false;
             }
+        }
+        if (led_publish){
+            led.publish(ledsmsg);
+            led_publish=false;
         }
         ros::spinOnce();
         loop_rate.sleep();

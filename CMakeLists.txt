@@ -262,3 +262,28 @@ add_dependencies(cloudwatch_log sengi_ros ${${PROJECT_NAME}_EXPORTED_TARGETS} ${
 target_link_libraries(cloudwatch_log
   ${catkin_LIBRARIES}
 )
+
+install(TARGETS cloudwatch_log demo_teleop explore_blinker gazebo_reset led_detection
+   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(DIRECTORY launch/
+   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch )
+
+install(DIRECTORY src/
+   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/src )
+
+install(DIRECTORY models/
+   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/models )
+
+install(DIRECTORY worlds/
+   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds )
+
+install(DIRECTORY scripts/
+   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts )
+
+install(DIRECTORY rviz/
+   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/rviz )
+
