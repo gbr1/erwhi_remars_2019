@@ -245,3 +245,11 @@ add_dependencies(explore_blinker upboard_ros ${erwhi_remars_2019_EXPORTED_TARGET
 target_link_libraries(explore_blinker
   ${catkin_LIBRARIES}
 )
+
+add_executable(led_detection
+  src/led_detection.cpp
+)
+add_dependencies(led_detection ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(led_detection
+  ${catkin_LIBRARIES}
+)
