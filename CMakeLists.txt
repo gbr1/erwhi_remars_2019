@@ -30,7 +30,7 @@ add_compile_options(-std=c++11)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp upboard_ros)
+find_package(catkin REQUIRED COMPONENTS roscpp upboard_ros sengi_ros cloudwatch_metrics_collector)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -60,6 +60,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp upboard_ros)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   upboard_ros
+  sengi_ros
 )
 ##   * add "message_runtime" and every package in MSG_DEP_SET to
 ##     catkin_package(CATKIN_DEPENDS ...)
@@ -251,5 +252,13 @@ add_executable(led_detection
 )
 add_dependencies(led_detection ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(led_detection
+  ${catkin_LIBRARIES}
+)
+
+add_executable(cloudwatch_log
+  src/cloudwatch_log.cpp
+)
+add_dependencies(cloudwatch_log sengi_ros ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(cloudwatch_log
   ${catkin_LIBRARIES}
 )

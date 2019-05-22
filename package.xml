@@ -67,4 +67,10 @@ THE SOFTWARE.
 <build_depend>upboard_ros</build_depend>
 <build_export_depend>upboard_ros</build_export_depend>
 <exec_depend>upboard_ros</exec_depend>
+<build_depend>sengi_ros</build_depend>
+<build_depend>cloudwatch_metrics_collector</build_depend>
+<build_export_depend>sengi_ros</build_export_depend>
+<build_export_depend>cloudwatch_metrics_collector</build_export_depend>
+<exec_depend>sengi_ros</exec_depend>
+<exec_depend>cloudwatch_metrics_collector</exec_depend>
 </package>
