@@ -34,12 +34,22 @@ bool clear=false;
 
 
 void callbackDetection(const ros_openvino::Objects & msg){
-    ledsmsg.header.stamp=ros::Time::now();
-    ledsmsg.header.frame_id="base_link";
-    ledmsg.led=ledmsg.BLUE;
-    ledmsg.value=true;
-    ledsmsg.leds.push_back(ledmsg);
+    if (!msg.objects.empty()){
+        ledsmsg.header.stamp=ros::Time::now();
+        ledsmsg.header.frame_id="base_link";
+        ledmsg.led=ledmsg.BLUE;
+        ledmsg.value=true;
+        ledsmsg.leds.push_back(ledmsg);
+    }
+    else{
+        ledsmsg.header.stamp=ros::Time::now();
+        ledsmsg.header.frame_id="base_link";
+        ledmsg.led=ledmsg.BLUE;
+        ledmsg.value=false;
+        ledsmsg.leds.push_back(ledmsg);
+    }
     publish=true;
+
 }
 
 int main(int argc, char **argv){
@@ -48,11 +58,14 @@ int main(int argc, char **argv){
     ros::Publisher leds_pub = nh.advertise<upboard_ros::Leds>("/upboard/leds", 10);
     ros::Subscriber sub = nh.subscribe("/object_detection/results",10,callbackDetection);
 
+    /*
     ros::Time current_time, last_time;
     current_time = ros::Time::now();
     last_time = ros::Time::now();
+    */
 
     while(ros::ok()){
+        /*
         if (clear){
             current_time = ros::Time::now();
             double dt = (current_time - last_time).toSec();
@@ -68,12 +81,15 @@ int main(int argc, char **argv){
             }
             
         }
+        */
         if (publish){
             leds_pub.publish(ledsmsg);
             ledsmsg.leds.clear();
             publish=false;
+            /*
             clear=true;
             last_time=ros::Time::now();
+            */
         }
         
         
